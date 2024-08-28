@@ -1,0 +1,103 @@
+---
+title: 'Performance Test case with three code branches: Regression, Fixed and Before:'
+author: "Doris Amoakohene"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+#Performance Testing:
+##Performance Test case with three code branches: Regression, Fixed and Before:
+
+```{r}
+library(atime)
+library(ggplot2)
+library(data.table)
+library(directlabels)
+library(dplyr)
+```
+
+```{r}
+
+
+tdir <- tempfile()
+dir.create(tdir)
+git2r::clone("https://github.com/Rdatatable/data.table", tdir)
+
+
+```
+
+
+```{r}
+atime.colors.1 <- c(#RColorBrewer::brewer.pal(7, "Dark2")
+  Before="#66A61E",
+  Regression="#E6AB02", 
+  Fixed="#A6761D"
+)
+
+
+atime.list.4200 <- atime::atime_versions(
+  pkg.path=tdir,
+  pkg.edit.fun=function(old.Package, new.Package, sha, new.pkg.path){
+    pkg_find_replace <- function(glob, FIND, REPLACE){
+      atime::glob_find_replace(file.path(new.pkg.path, glob), FIND, REPLACE)
+    }
+    Package_regex <- gsub(".", "_?", old.Package, fixed=TRUE)
+    Package_ <- gsub(".", "_", old.Package, fixed=TRUE)
+    new.Package_ <- paste0(Package_, "_", sha)
+    pkg_find_replace(
+      "DESCRIPTION", 
+      paste0("Package:\\s+", old.Package),
+      paste("Package:", new.Package))
+    pkg_find_replace(
+      file.path("src","Makevars.*in"),
+      Package_regex,
+      new.Package_)
+    pkg_find_replace(
+      file.path("R", "onLoad.R"),
+      Package_regex,
+      new.Package_)
+    pkg_find_replace(
+      file.path("R", "onLoad.R"),
+      sprintf('packageVersion\\("%s"\\)', old.Package),
+      sprintf('packageVersion\\("%s"\\)', new.Package))
+    pkg_find_replace(
+      file.path("src", "init.c"),
+      paste0("R_init_", Package_regex),
+      paste0("R_init_", gsub("[.]", "_", new.Package_)))
+    pkg_find_replace(
+      "NAMESPACE",
+      sprintf('useDynLib\\("?%s"?', Package_regex),
+      paste0('useDynLib(', new.Package_))
+  },
+  N=10^seq(1,7,by = 0.25),
+  setup={ 
+    set.seed(108)
+    d <- data.table(
+      id3 = sample(c(seq.int(N*0.9), sample(N*0.9, N*0.1, TRUE))),
+      v1 = sample(5L, N, TRUE),
+      v2 = sample(5L, N, TRUE))
+  },
+  expr=data.table:::`[.data.table`(d, , (max(v1)-min(v2)), by = id3),
+  "Before"="793f8545c363d222de18ac892bc7abb80154e724",#parent of the PR that introduced the regression(https://github.com/Rdatatable/data.table/commit/4aadde8f5a51cd7c8f3889964e7280432ec65bbc) as stated here (https://github.com/Rdatatable/data.table/issues/4200#issuecomment-646111420) https://github.com/Rdatatable/data.table/commit/793f8545c363d222de18ac892bc7abb80154e724
+  "Regression"="c152ced0e5799acee1589910c69c1a2c6586b95d", #parent of the first commit in the PR (https://github.com/Rdatatable/data.table/commit/15f0598b9828d3af2eb8ddc9b38e0356f42afe4f)
+  "Fixed"="f750448a2efcd258b3aba57136ee6a95ce56b302")#second commit in the PR that fixes the regression(https://github.com/Rdatatable/data.table/pull/4558/commits)
+```
+
+
+```{r}
+png("atime.list.4200.png",res = 600, width = 5, height = 3, unit = "in")
+atime.list.4200 = ggplot()+
+  geom_line(aes(x = N, y = median, group = expr.name, colour = expr.name), data =  atime.list.4200$measurements)+
+  geom_ribbon(aes(x = N, ymin = min, ymax = max, fill = expr.name), data = atime.list.4200$measurements, alpha = 0.5 )+
+  scale_x_log10("N = number of rows",limits = c(1e1, 1e5), breaks = 10^seq(1,7))+
+  scale_y_log10("Computational Time (Seconds)")+
+  scale_fill_manual(values=atime.colors.1)+
+  scale_color_manual(values=atime.colors.1)
+directlabels::direct.label(atime.list.4200, list(cex = 1, "right.polygons"))
+dev.off()
+
+
+
+```
+

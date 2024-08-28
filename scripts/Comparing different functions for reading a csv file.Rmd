@@ -1,0 +1,126 @@
+---
+title: "Comparing different functions for reading a csv file"
+author: "Doris Amoakohene"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+```{r}
+library(atime)
+library(ggplot2)
+library(data.table)
+library(directlabels)
+library(dplyr)
+```
+
+
+
+#Comparing different functions for reading a csv file
+
+
+
+```{r}
+read.colors <- c(
+  "readr::read_csv"="#9970AB",
+  "data.table::fread"="#D6604D",
+  "utils::read.csv" = "deepskyblue")
+
+n.rows <- 100
+seconds.limit <- 5
+
+
+atime.read.vary.cols <- atime::atime(
+  N=as.integer(10^seq(2, 6, by=0.5)),
+  setup={
+    set.seed(1)
+    input.vec <- rnorm(n.rows*N)
+    input.mat <- matrix(input.vec, n.rows, N)
+    input.df <- data.frame(input.mat)
+    input.csv <- tempfile()
+    fwrite(input.df, input.csv)
+  },
+  seconds.limit = seconds.limit,
+  "data.table::fread"={
+    data.table::fread(input.csv, showProgress = FALSE)
+  },
+  "readr::read_csv"={
+    readr::read_csv(input.csv, progress = FALSE, show_col_types = FALSE, lazy=TRUE)
+  },
+  "utils::read.csv"=utils::read.csv(input.csv))
+```
+
+
+```{r}
+# Interpolate to find the exact N values where computation time is 5 seconds and convert to integers
+five_sec_N <- atime.read.vary.cols$measurements %>%
+  group_by(expr.name) %>%
+  summarize(N = as.integer(approx(x = median, y = N, xout = 5)$y))
+
+# Create the plot
+png("gg.read.3.png", res = 300, width = 12, height = 8, unit = "in")
+gg.read.3 <- ggplot() +
+  geom_line(data = atime.read.vary.cols$measurements, aes(x = N, y = median, color = expr.name, group = expr.name)) +
+  geom_ribbon(aes(x = N, ymin = min, ymax = max, fill = expr.name), data = atime.read.vary.cols$measurements, alpha = 0.5) +
+  geom_hline(yintercept = 5, linetype = "solid", color = "black") +annotate("text", x = 10^2, y = 5, label = "seconds = 5", color = "black", size = 7, vjust = 1, hjust = 0.2) +
+  theme(
+    text = element_text(size = 20),
+    axis.text = element_text(size = 20),
+    axis.title = element_text(size = 20)
+  ) +
+  scale_x_log10("N = number of columns to read") +
+  scale_y_log10("Computation time (seconds)") +
+  scale_fill_manual(values = read.colors) +
+  scale_color_manual(values = read.colors)
+```
+
+```{r}
+color_map <- c(
+"readr::read_csv"="#9970AB",
+"data.table::fread"="#D6604D",
+"utils::read.csv" = "deepskyblue")
+
+png("gg.read.3.png", res = 300, width = 12, height = 9, unit = "in")
+gg.read.3 +
+geom_label(data = five_sec_N,
+aes(x = N, y = 5, label = paste(expr.name, "\nN =", round(N, 2)), fill = expr.name),
+vjust = -1, size = 6) +
+scale_fill_manual(values = color_map)+
+theme(legend.position = "none")
+
+dev.off()
+
+#directlabels::geom_dl(gg.read.3, list(cex = 1.5, "top.polygons", method = "smart.grid"))
+
+
+```
+
+
+
+```{r}
+# Define the color map
+color_map <- c(
+  "readr::read_csv" = "#9970AB",
+  "data.table::fread" = "#D6604D",
+  "utils::read.csv" = "deepskyblue"
+)
+
+# Save the plot as a PNG file
+png("gg.read.3.png", res = 300, width = 12, height = 9, unit = "in")
+
+# Create the plot with direct labels
+gg.read.3 = gg.read.3 +
+  theme(legend.position = "none") +
+  directlabels::geom_dl(data = five_sec_N,
+                         aes(x = N, y = 5, label = paste(expr.name, "\nN =", round(N, 2))),
+                         method = list("top.qp", cex = 1.5), 
+                         size = 6) +
+  #scale_fill_manual(values = color_map)+
+  theme(legend.position = "none")
+
+dev.off()
+
+
+#directlabels::geom_dl(gg.read.3, list(cex = 1.5, "top.polygons", method = "smart.grid"))
+```
+
