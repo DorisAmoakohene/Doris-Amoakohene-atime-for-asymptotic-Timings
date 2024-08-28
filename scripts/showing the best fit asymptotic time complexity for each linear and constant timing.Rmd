@@ -1,0 +1,70 @@
+---
+title: showing the best fit asymptotic time complexity for each linear and constant
+  timing
+author: "Doris Amoakohene"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r}
+library(atime)
+library(ggplot2)
+library(data.table)
+library(directlabels)
+library(dplyr)
+```
+
+
+
+#showing the best fit asymptotic time complexity for each linear and constant timings
+
+
+```{r}
+(subject.size.vec <- unique(as.integer(10^seq(0,9,l=100))))
+atime.list <- atime::atime(
+  setup={
+    set.seed(123)
+    subject <- paste(rep("a", N), collapse="")
+    pattern <- paste(rep(c("a?", "a"), each=N), collapse="")
+  },
+  constant.replacement=gsub("a",subject,subject),
+  linear.replacement=gsub("a","linear size replacement",subject),
+  seconds.limit=3,
+  times=20, 
+  N=subject.size.vec)
+(best.list.R <- atime::references_best(atime.list))
+```
+
+
+```{r}
+# Update the expr.name values
+best.list.R$measurements <- best.list.R$measurements %>%
+  mutate(expr.name = case_when(
+    expr.name == "constant.replacement" ~ "Fixed-Time",
+    expr.name == "linear.replacement" ~ "Proportional-Time",
+    TRUE ~ expr.name
+  ))
+```
+
+
+```{r}
+p <- ggplot(best.list.R$measurements, aes(x = N, y = median, group = expr.name, colour = expr.name)) +
+  geom_line() +
+  geom_ribbon(aes(ymin = min, ymax = max, fill = expr.name), alpha = 0.5, colour = NA) +
+  scale_x_log10("N = number of rows in the dataset", limits = c(10, 1e8), breaks = 10^seq(1, 8)) +
+  theme(
+    text = element_text(size = 15),
+    axis.text = element_text(size = 15),
+    axis.title = element_text(size = 15)
+  )+
+  scale_y_log10("Computational Time (Seconds)") +
+  labs(x = "N = number of rows in the dataset", y = "Computational Time (Seconds)") +
+  theme(legend.position = "none")
+
+p <- p + geom_dl(aes(label = gsub(".replacement", "", expr.name)), method = list(dl.combine("last.points"), cex = 1.2))
+
+ggsave("best.list.R.png", plot = p, width = 10, height = 5, unit = "in", dpi = 300)
+
+
+```
+

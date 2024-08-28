@@ -1,0 +1,76 @@
+---
+title: "alt read"
+author: "Doris Amoakohene"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+```{r}
+library(atime)
+library(ggplot2)
+library(data.table)
+library(directlabels)
+library(dplyr)
+```
+
+
+
+#Comparing different functions for reading a csv file
+
+
+
+```{r}
+read.colors <- c(
+  "readr::read_csv"="#9970AB",
+  "data.table::fread"="#D6604D",
+  "utils::read.csv" = "deepskyblue")
+
+n.rows <- 100
+seconds.limit <- 5
+
+
+atime.read.vary.cols <- atime::atime(
+  N=as.integer(10^seq(2, 6, by=0.5)),
+  setup={
+    set.seed(1)
+    input.vec <- rnorm(n.rows*N)
+    input.mat <- matrix(input.vec, n.rows, N)
+    input.df <- data.frame(input.mat)
+    input.csv <- tempfile()
+    fwrite(input.df, input.csv)
+  },
+  seconds.limit = seconds.limit,
+  "data.table::fread"={
+    data.table::fread(input.csv, showProgress = FALSE)
+  },
+  "readr::read_csv"={
+    readr::read_csv(input.csv, progress = FALSE, show_col_types = FALSE, lazy=TRUE)
+  },
+  "utils::read.csv"=utils::read.csv(input.csv))
+```
+
+
+```{r}
+
+p_read <- ggplot(atime.read.vary.cols$measurements, aes(x = N, y = median, group = expr.name, colour = expr.name)) +
+  geom_line(data = atime.read.vary.cols$measurements, aes(x = N, y = median, color = expr.name, group = expr.name)) +
+  geom_ribbon(aes(ymin = min, ymax = max, fill = expr.name), alpha = 0.5, colour = NA) +
+  geom_hline(yintercept = 5, linetype = "solid", color = "black")+
+  scale_x_log10("N = number of rows in the dataset", limits = c(10, 1e8), breaks = 10^seq(1, 8)) +
+  annotate("text", x = 10^2, y = 5, label = "seconds = 5", color = "black", size = 7, vjust = 1, hjust = 0.2)+
+  theme(
+    text = element_text(size = 15),
+    axis.text = element_text(size = 15),
+    axis.title = element_text(size = 15)
+  )+
+  scale_y_log10("Computational Time (Seconds)") +
+  labs(x = "N = number of columns to read", y = "Computational Time (Seconds)") +
+  theme(legend.position = "none")
+
+p_read <- p_read + geom_dl(aes(label = gsub(".replacement", "", expr.name)), method = list(dl.combine("last.points"), cex = 1.2))
+
+ggsave("p_read.png", plot = p_read, width = 10, height = 5, unit = "in", dpi = 300)
+
+
+```

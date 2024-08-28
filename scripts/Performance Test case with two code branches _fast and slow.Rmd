@@ -1,0 +1,97 @@
+---
+title: 'Performance Test case with two code branches: fast and slow:'
+author: "Doris Amoakohene"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+
+#Performance Testing:
+##Performance Test case with two code branches: fast and slow
+```{r}
+library(atime)
+library(ggplot2)
+library(data.table)
+library(directlabels)
+library(dplyr)
+```
+
+```{r}
+
+
+tdir <- tempfile()
+dir.create(tdir)
+git2r::clone("https://github.com/Rdatatable/data.table", tdir)
+
+
+```
+
+
+```{r}
+atime.colors.2 <- c(
+  Slow="#E6AB02",
+  Fast="#A6761D"
+)
+```
+
+
+```{r}
+atime.list.5427 <- atime::atime_versions(
+  pkg.path=tdir,
+  pkg.edit.fun=function(old.Package, new.Package, sha, new.pkg.path){
+    pkg_find_replace <- function(glob, FIND, REPLACE){
+      atime::glob_find_replace(file.path(new.pkg.path, glob), FIND, REPLACE)
+    }
+    Package_regex <- gsub(".", "_?", old.Package, fixed=TRUE)
+    Package_ <- gsub(".", "_", old.Package, fixed=TRUE)
+    new.Package_ <- paste0(Package_, "_", sha)
+    pkg_find_replace(
+      "DESCRIPTION", 
+      paste0("Package:\\s+", old.Package),
+      paste("Package:", new.Package))
+    pkg_find_replace(
+      file.path("src","Makevars.*in"),
+      Package_regex,
+      new.Package_)
+    pkg_find_replace(
+      file.path("R", "onLoad.R"),
+      Package_regex,
+      new.Package_)
+    pkg_find_replace(
+      file.path("R", "onLoad.R"),
+      sprintf('packageVersion\\("%s"\\)', old.Package),
+      sprintf('packageVersion\\("%s"\\)', new.Package))
+    pkg_find_replace(
+      file.path("src", "init.c"),
+      paste0("R_init_", Package_regex),
+      paste0("R_init_", gsub("[.]", "_", new.Package_)))
+    pkg_find_replace(
+      "NAMESPACE",
+      sprintf('useDynLib\\("?%s"?', Package_regex),
+      paste0('useDynLib(', new.Package_))
+  },
+  N=10^seq(1,7, by = 0.25),
+  setup={ 
+    DT = replicate(N, 1, simplify = FALSE)
+  },
+  expr=data.table:::setDT(DT),
+  "Slow"= "c4a2085e35689a108d67dacb2f8261e4964d7e12", #Parent of the first commit in the PR that fixes the issue(https://github.com/Rdatatable/data.table/commit/7cc4da4c1c8e568f655ab5167922dcdb75953801),
+  
+  "Fast"="1872f473b20fdcddc5c1b35d79fe9229cd9a1d15")#last commit in the PR that fixes the issue (https://github.com/Rdatatable/data.table/pull/5427/commits)
+```
+
+
+```{r}
+png("atime.list.5427.png",res = 600, width = 5, height = 3, unit = "in")
+atime.list.5427 = ggplot()+
+  geom_line(aes(x = N, y = median, group = expr.name, colour = expr.name), data =  atime.list.5427$measurements)+
+  geom_ribbon(aes(x = N, ymin = min, ymax = max, fill = expr.name), data = atime.list.5427$measurements, alpha = 0.5 )+
+  scale_x_log10("N = number of rows",limits = c(1e1, 1e8), breaks = 10^seq(1,8))+
+  scale_y_log10("Computational Time (Seconds)")+
+  scale_fill_manual(values=atime.colors.2)+
+  scale_color_manual(values=atime.colors.2)
+directlabels::direct.label(atime.list.5427, list(cex = 1, "right.polygons"))
+dev.off()
+
+```
+

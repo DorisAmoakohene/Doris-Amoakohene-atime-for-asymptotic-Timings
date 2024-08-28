@@ -61,38 +61,7 @@ atime(proposed )  & R  & PR comment,. & performance testing and Comparative benc
     \label{tab:my_label}
 \end{table}
 
-\textbf{Goal of the Table:} in Table 1, the goal is to compare different benchmarking technologies across various software, functions, and packages. This helps in understanding the strengths and weaknesses of each function or package in comparison to \texttt{atime}, our proposed package.
-
-\textbf{Expected Observations:} We expect to see that each benchmarking technology has its own set of strengths that make it suitable for specific tasks. For example, some functions or packages might be better suited for only comparative benchmarking, while others might excel in performance testing. However, \texttt{atime} is suited for both comparative benchmarking and performance testing.
-
-\textbf{Actual Observations:} In the table, you can observe the following comparisons:
-
-\textbf{System Time:} \\
-Used for comparative benchmarking in R packages and GitHub Actions.
-\vspace{0.1in}
-
-\textbf{Microbenchmark:} \\
-Used for comparative benchmarking in R packages.
-\vspace{0.1in}
-
-\textbf{Airspeed Velocity:} \\
-Used for performance testing in Python with a custom web page.
-\vspace{0.1in}
-
-\textbf{Conbench:} \\
-Used for performance testing in Arrow.
-\vspace{0.1in}
-
-\textbf{Touchstone:} \\
-Used for performance testing in R with PR comments.
-\vspace{0.1in}
-
-\textbf{\texttt{atime} (proposed):} \\
-Used for performance testing and comparative benchmarking in R with PR comments.
-\vspace{0.1in}
-
-
-\textbf{Conclusion:} From this table, we conclude that different benchmarking technologies offer various capabilities for performance testing and benchmarking. The proposed \texttt{atime} package stands out as it combines both performance testing and comparative benchmarking, making it a versatile choice for different benchmarking needs. This understanding can help you choose the most appropriate technology for your specific benchmarking tasks.
+\noindent The goal of Table 1 is to compare different benchmarking technologies across various software, functions, and packages, helping to understand the strengths and weaknesses of each in comparison to atime, our proposed package. We expect each benchmarking technology to have its own set of strengths, making it suitable for specific tasks, such as comparative benchmarking or performance testing. The table reveals that system.time is used for comparative benchmarking in R package, while microbenchmark is used for comparative benchmarking in R packages. airspeed velocity is used for performance testing in Python, with a in built GitHub which display result in a custom web page, Conbench for performance testing in arrow, and touchstone for performance testing in R with a in built GitHub which display results in appropriate PR comments. atime stands out as it combines both performance testing and comparative benchmarking, making it a versatile choice for different benchmarking needs, it also has an integrated GitHub Action that facilitates performance testing of incoming changes in any R packages via Pull Requests, publishing results in a GitHub-bot authored comment on the pull request thread. This understanding can help choose the most appropriate technology for specific benchmarking tasks, highlighting atime's unique value proposition.\\
 
 
 \subsection{Comparative Benchmark}
@@ -200,7 +169,7 @@ Fit asymptotic reference lines
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{best.list.R.png}
+    \includegraphics[width=0.8\linewidth]{figures/best.list.R.png}
     \caption{showing the best fit asymptotic time complexity for each linear and constant timings}
     \label{fig:label1}
 \end{figure}
@@ -208,13 +177,8 @@ Fit asymptotic reference lines
 \noindent In the figure above, the plot shows the timings of each expression as a function of data size N
 \vspace{0.1in}
 
-\textbf{Goal of the Figure:} The goal of creating this figure is to understand how computational time varies with dataset size and infer how different algorithms scale with larger data amounts.
 
-\textbf{Expected Observations:} As dataset size increases, computational time is expected to increase minimally for constant complexity algorithms and proportionally for linear complexity algorithms.
-
-\textbf{Actual Observations:} The figure shows that constant complexity algorithms maintain consistent computational times regardless of dataset size, while linear complexity algorithms' times increase steadily with larger datasets.
-
-\textbf{Conclusion:} Algorithms with constant complexity are highly efficient for large datasets due to consistent computational times, while linear complexity algorithms become less practical as dataset size grows due to increasing computation times.
+\noindent The goal of creating this figure is to understand how computational time scales with increasing dataset size for two different scenarios or algorithms: one with fixed time complexity and another with time proportional to some function of N. As expected, the computational time for the fixed-time scenario remains relatively constant, while the proportional-time scenario shows a more rapid increase as the dataset size grows. The figure confirms this expectation, with both computational times increasing as N increases, but the proportional-time line showing a steeper increase. For smaller values of N, both scenarios have similar computational times, but they diverge significantly for larger values of N. This figure reveals that while both fixed-time and proportional-time computations take longer with larger datasets, proportional-time computation becomes significantly more time-consuming as dataset size grows very large, providing crucial insight for choosing between different algorithms or systems based on their expected performance with large amounts of data.\\
 
 
 \subsection{Comparative Benchmarking}
@@ -311,19 +275,12 @@ List of 3
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\linewidth]{gg.read.3.png}
+    \includegraphics[width=0.7\linewidth]{figures/gg.read.3.png}
     \caption{Comparing different functions for reading a csv file}
     \label{fig:label2}
 \end{figure}
 
-\textbf{Goal of the Figure:} The goal of this figure is to compare the computational time of different data reading functions in R (\texttt{utils::read\_csv}, \texttt{readr::read\_csv}, and \texttt{data.table::fread}) as the number of columns increases.
-
-\textbf{Expected Observations:} As the number of columns increases, computational time is expected to increase for each function, but at potentially different rates, with \texttt{data.table::fread} expected to be the most efficient.
-
-\textbf{Actual Observations:} The figure shows that \texttt{data.table::fread} has the lowest computational time, followed by \texttt{readr::read\_csv} and then \texttt{utils::read\_csv}, with increasing divergence as the number of columns increases.
-
-\textbf{Conclusion:} \texttt{data.table::fread} is consistently the most efficient function for reading large datasets with many columns, maintaining lower computational times compared to the other functions.
-
+The goal of this figure is to compare the performance of three different methods for reading data into R using our atime package \texttt{utils::read\_csv} , \texttt{readr::read\_csv}, and \texttt{data.table::fread}, as the number of columns increases. As expected, the computation time for each method increases with the number of columns, but at different rates, revealing which method is more efficient for larger datasets. The figure shows that \texttt{data.table::fread} is consistently faster than the others across all column sizes, with \texttt{utils::read\_csv} and \texttt{readr::read\_csv} taking longer as the number of columns grows. The N-values (3701, 15855, and 10771) represent the sample size for each method, providing context for the variability and confidence intervals shown in the graph. Overall, this figure reveals that \texttt{data.table::fread} is the most efficient method, especially for larger datasets, providing insight for choosing the best method for reading large data files in R.
 
 
 \subsection{Performance Testing}
@@ -409,7 +366,7 @@ We run the full performance regression:
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.6\linewidth]{atime.list.5427.png}
+    \includegraphics[width=0.6\linewidth]{figures/atime.list.5427.png}
     \caption{Performance Test case with two code branches: fast and slow}
     \label{fig:label3}
 \end{figure}
@@ -457,7 +414,7 @@ The output as mentioned previously will capture the computational time for each 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.7\linewidth]{atime.list.4200.png}
+    \includegraphics[width=0.7\linewidth]{figures/atime.list.4200.png}
     \caption{Performance Test case with three code branches: Regression, Fixed and Before}
     \label{fig:label4}
 \end{figure}
@@ -522,7 +479,8 @@ The key features of this GitHub Action include:
     \end{tabular}
 \end{table}
 \end{itemize}
-\newline
+
+
 The action is not constrained to be OS-specific and there is only one single job or set of steps that execute on the same runner.
 \newline
 \newline
@@ -530,7 +488,7 @@ There are ample examples of this in action within the official \code{data.table}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.0\linewidth]{GHA2.png}
+    \includegraphics[width=1.0\linewidth]{figures/GHA2.png}
     \caption{Test cases running for every code changing PR via the GitHub Action that Anirban created}
     \label{fig:label5}
 \end{figure}
