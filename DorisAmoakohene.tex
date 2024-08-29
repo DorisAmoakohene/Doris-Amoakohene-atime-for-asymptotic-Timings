@@ -47,7 +47,7 @@ airspeed velocity & Python & Custom web page & Performance testing\\
 \hline
 Conbench & Arrow  & - & Performance testing\\
 \hline
-touchstone & R& PR comments & Performance testing\\
+touchstone & R & PR comments & Performance testing\\
 \hline
 pytest-benchmark & Python
 projects with
@@ -59,9 +59,9 @@ atime(proposed) & R & PR comments & Performance testing and comparative benchmar
     \label{tab:my_label}
 \end{table}
 
-\noindent The goal of Table 1 is to compare different benchmarking technologies across various software, functions, and packages, helping to understand the strengths and weaknesses of each in comparison to atime, our proposed package. We expect each benchmarking technology to have its own set of strengths, making it suitable for specific tasks, such as comparative benchmarking or performance testing. The table reveals that system.time is used for comparative benchmarking in R packages, while microbenchmark is used for comparative benchmarking in R packages. airspeed velocity is used for performance testing in Python with integrated GitHub Actions which comments results to a custom web page, conbench for performance testing in arrow, and touchstone for performance testing in R with a GitHub action which comments results on the Pull Requests (PRs). 
+\noindent The goal of Table 1 is to compare different benchmarking technologies across various software/packages/functions, helping to understand the pros and cona of each in comparison to atime, our proposed package. We expect each benchmarking technology to have its own set of strengths, making it suitable for tasks such as comparative benchmarking or performance testing. system.time and microbenchmark can both be used for comparative benchmarking in R packages. airspeed velocity is used for performance testing in Python with an integrated GitHub Action that comments results to a custom web page. conbench is used for performance testing in arrow, while touchstone is used for the same but in R, and comes with a GitHub Action which comments results on Pull Requests (PRs).
 
-In contrast, atime stands out as it combines both performance testing and comparative benchmarking with a GitHub Action integrating it to facilitate testing the time and memory performance of the incoming changes that are introduced via PRs to the GitHub repositories of R packages. This action publishes results in a GitHub-bot authored comment on the pull request thread, making it convenient for developers to keep a check on incoming code for potential regressions and improvements.\\
+In contrast, atime stands out as it combines both performance testing and comparative benchmarking with a GitHub Action integrating it to facilitate testing the time and memory performance of the incoming changes that are introduced via PRs to the GitHub repositories of R packages. This action publishes results in a GitHub-bot authored comment on the pull request thread with detailed version-based visualizations of performance trends that stem from test cases, making it convenient for developers to keep a check on the PR-suggested changes for potential regressions and improvements.\\
 
 \subsection{Comparative Benchmark}
 
