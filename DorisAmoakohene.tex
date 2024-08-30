@@ -135,19 +135,20 @@ The \texttt{atime\_pkg()} function provides a way to integrate asymptotic timing
 
 \subsection{Proposed method: atime for measuring asymptotic time and memory}
 
-\noindent As mentioned above core functions of the \code{atime()} package, \code{atime()} and \texttt{atime\_versions} functions, will allow us to measure the time and memory usage of R expressions and versions, respectively, as the size of the input data increases.
+\noindent As mentioned above, the core functions of the \texttt{atime} package, \code{atime()} and \code{atime\_versions()}, will allow us to measure the time and memory usage of R expressions and versions, respectively, as the size of the input data increases.
 
-\noindent Here's a general overview of how to use \code{atime()} and \texttt{atime\_versions} to analyze the performance of different manipulation algorithms:\\
+\noindent Here's a general overview on using \code{atime()} and \code{atime\_versions()} to analyze the performance of different manipulation algorithms:\\
 
-\noindent Basic parameters for which you can specify when using a time:
+\noindent Basic parameters for which you can specify when using \texttt{atime}:
 
 \begin{itemize}
-    \item \textit{N} is a numeric vector of data sizes to vary.
-\item \textit{setup} is an expression to evaluate for every data size before timings.
-\item \textit{times} is the number of times each expression is timed (so we can take the median and ignore outliers).
-\item \textit{seconds.limit} is the maximum number of seconds. If an expression takes more time, then it will not be timed for larger \textit{N} values.
-\item there should also be at least one other named argument (an expression to time for every size \textit{N}, the name is the label which will appear on plots).
-\item \textit{pkg\_edit\_fun}: @Toby, this section
+
+  \item \textit{N} is a numeric vector of data sizes to vary.
+  \item \textit{setup} is an expression to evaluate for every data size before timings.
+  \item \textit{times} is the number of times each expression is timed (so we can take the median and ignore outliers).
+  \item \textit{seconds.limit} is the maximum number of seconds. If an expression takes more time, then it will not be timed for larger \textit{N} values.
+  \item there should also be at least one other named argument (an expression to time for every size \textit{N}, the name is the label which will appear on plots).
+  \item \textit{pkg\_edit\_fun}: @Toby, this section
 
 \end{itemize}
 
@@ -280,16 +281,15 @@ List of 3
 
 
 \subsection{Performance Testing}
-The atime package includes the atime\_pkg() function, which enables you to integrate asymptotic timing and memory analysis into your continuous integration and deployment workflows. 
-This can help ensure that new changes to your R packages do not introduce performance regressions. When performing these performance tests, we use the atime::atime\_versions.
-Performance testing can be done on any R package written with Rcpp.\\
+The \texttt{atime} package provies a function named \texttt{atime\_pkg()} which enables users to integrate asymptotic timing and memory analysis into continuous integration and deployment workflows. 
+This can help ensure that new changes to R packages do not introduce performance regressions. When performing these performance tests, we use \texttt{atime::atime\_versions}.
+Performance testing can be done on any R package written with \texttt{Rcpp}.\\
 
-
-\noindent we will discuss how to use atime::atime\_versions to create performance testing for the data.table package in R.
-data.table is a powerful extension of R's data.frame, designed to handle large datasets with exceptional efficiency. Its concise and expressive syntax enables users to perform complex data manipulations with ease, making it an ideal tool for data analysis. The development team behind data.table is dedicated to continuously optimizing its performance, ensuring swift execution of tasks like filtering, grouping, aggregating, and joining data.
+\noindent we will discuss how to use \texttt{atime::atime\_versions} to create performance testing for the \texttt{data.table} package in R.
+\texttt{data.table} is a powerful extension of R's data.frame, designed to handle large datasets with exceptional efficiency. Its concise and expressive syntax enables users to perform complex data manipulations with ease, making it an ideal tool for data analysis. The development team behind \texttt{data.table} is dedicated to continuously optimize its performance, ensuring swift execution of tasks like filtering, grouping, aggregating, and joining data.
 \vspace{0.1in}
-To guarantee high-performance standards, data.table employs a robust performance testing framework. This framework measures the actual execution time of specific operations, enabling accurate comparisons between different package versions. 
-Our atime performance tests aim to assess package repositories by benchmarking performance and gathering information on memory and time usage. 
+To guarantee high-performance standards, \texttt{data.table} employs a robust performance testing framework. This framework measures the actual execution time of specific operations, enabling accurate comparisons between different package versions. 
+Our \texttt{atime}-based performance tests aim to assess packages by benchmarking performance and gathering information on memory and time usage. 
 \vspace{0.1in}
 By conducting these tests, we gain valuable insights into a package's performance efficiency, ensuring the delivery of a reliable package to users.
 \vspace{0.1in}
@@ -298,7 +298,6 @@ By conducting these tests, we gain valuable insights into a package's performanc
 
 \begin{itemize}
     
-
 \item \textit{To begin} conduct the atime test for the different code branches (before regression, regression, fix regression) to identify potential performance issues. 
 \vspace{0.1in}
 
