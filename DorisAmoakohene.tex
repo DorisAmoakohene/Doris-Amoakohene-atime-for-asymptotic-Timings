@@ -99,7 +99,7 @@ In contrast, \texttt{atime} stands out as it combines both performance testing a
 \vspace{0.1in}
 
 \textbf{touchstone} \\
-\citet{touchstone} created an R package touchstone which is used as a continuous benchmarking tool that focuses on reliable relative measurement and uncertainty reporting, whereas \texttt{atime} provides asymptotic timing measurements for more accurate analysis. While \texttt{touchstone} tracks performance changes, \texttt{atime} offers more detailed insights into performance differences. \texttt{atime} is designed for R code, whereas \texttt{touchstone} is also an R package. By providing higher resolution measurements, \texttt{atime} is a more advanced tool for performance analysis. \texttt{atime} complements touchstone and offers a more advanced solution for performance analysis.
+\citet{touchstone} created an R package named \texttt{touchstone} which is used as a continuous benchmarking tool that focuses on reliable relative measurement and uncertainty reporting, whereas \texttt{atime} provides asymptotic timing measurements for more accurate analysis. While \texttt{touchstone} tracks performance changes, \texttt{atime} offers more detailed insights into performance differences. \texttt{atime} is designed for R code, whereas \texttt{touchstone} is also an R package. By providing higher resolution measurements, \texttt{atime} is a more advanced tool for performance analysis. \texttt{atime} complements touchstone and offers a more advanced solution for performance analysis.
 
 \noindent When selecting an appropriate package or function for performance testing, researchers should consider the specific requirements of their benchmarking task. Factors to weigh in include the desired level of precision, the complexity of the code being benchmarked, and the need for visualization or statistical analysis of the results. Considering all things, we recommend the \texttt{atime} package and its functions for benchmarking.
 
@@ -111,11 +111,11 @@ The primary function in the atime package is \code{atime())}, which allows you t
 \vspace{0.1in}
 
 \textbf{Asymptotic Reference Lines:} \\
-The \texttt{references\_best()} function in atime fits asymptotic reference lines to the time and memory measurements, providing a concise way to visualize and interpret the complexity of your code. These reference lines can help you quickly identify the dominant factors driving performance and make informed decisions about optimizing your code.
+The \texttt{references\_best()} function in \texttt{atime} fits asymptotic reference lines to the time and memory measurements, providing a concise way to visualize and interpret the complexity of your code. These reference lines can help you quickly identify the dominant factors driving performance and make informed decisions about optimizing your code.
 \vspace{0.1in}
 
 \textbf{Estimate max data size for a given time/memory limit:} \\
-The \texttt{predict()} function in atime allows you to estimate the data size required to achieve a target time or memory usage, based on the fitted asymptotic reference lines. This can be particularly useful for capacity planning and understanding the scalability of your R-based applications.
+The \texttt{predict()} function in \texttt{atime} allows you to estimate the data size required to achieve a target time or memory usage, based on the fitted asymptotic reference lines. This can be particularly useful for capacity planning and understanding the scalability of your R-based applications.
 \vspace{0.1in}
 
 \textbf{Version Comparison:} \\
@@ -128,7 +128,7 @@ The \texttt{atime\_pkg()} function provides a way to integrate asymptotic timing
 
 \section{Results / empirical comparisons}
 
-\noindent The \texttt{atime} package offers new approaches to comparative benchmarking and performance testing through its two primary functions: \code{atime::atime()} and \code{atime::atime\_versions()}. For a detailed explanation of the syntax, please refer to the atime package vignettes. In this section, we will demonstrate how to utilize the new \texttt{atime} functions for comparative benchmarking and performance testing. We start by using these functions to capture the execution times and memory usage of various code algorithms, providing a thorough understanding of their performance. The subsequent plots and visualizations will illustrate the comparative benchmarking and performance testing results, showcasing performance improvements over time.\\
+\noindent The \texttt{atime} package offers new approaches to comparative benchmarking and performance testing through its two primary functions: \code{atime::atime()} and \code{atime::atime\_versions()}. For a detailed explanation of the syntax, please refer to the \texttt{atime} package vignettes. In this section, we will demonstrate how to utilize the new \texttt{atime} functions for comparative benchmarking and performance testing. We start by using these functions to capture the execution times and memory usage of various code algorithms, providing a thorough understanding of their performance. The subsequent plots and visualizations will illustrate the comparative benchmarking and performance testing results, showcasing performance improvements over time.\\
 
 \subsection{Proposed method: atime for measuring asymptotic time and memory}
 
