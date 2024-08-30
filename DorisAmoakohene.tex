@@ -77,14 +77,13 @@ In contrast, \texttt{atime} stands out as it combines both performance testing a
 \citet{system.time} is a base R function which provides a quick way to measure the execution time of code but has a relatively coarse resolution in the millisecond range. In contrast, the proposed \code{atime} functionality aims to provide a benchmarking tool, with the ability to measure both time and memory usage at a higher, microsecond-level resolution. This higher precision allows \code{atime} to detect smaller performance differences that may be missed by the cruder \texttt{system.time()}. While \texttt{system.time()} is suitable for basic performance evaluation, \code{atime} is designed to offer a more detailed and accurate assessment of code performance.
 \vspace{0.1in}
 
-
 \subsection{Performance Testing}
 \textbf{timeit} \\
-\citet{timeit} proposed the timeit module in Python which measures execution time with lower resolution than atime. While timeit calculates average execution time, atime provides asymptotic timing measurements for more accurate analysis. atime is designed for R code, whereas timeit is specific to Python. atime offers more detailed insights into performance differences than timeit. By providing higher resolution measurements, atime is a more advanced tool for performance analysis.
+\citet{timeit} proposed the \texttt{timeit} module in Python which measures execution time with lower resolution than atime. While \texttt{timeit} calculates average execution time, \texttt{atime} provides asymptotic timing measurements for more accurate analysis. \texttt{timeit} is specific to Python, whereas \texttt{atime} is designed for R code and offers more detailed insights into performance differences.
 \vspace{0.1in}
 
 \textbf{profile.run} \\
-\citet{profile} developed the profile module in Python's standard library, this is used as a profiling tool that provides detailed information about the execution of one's code. The profile.run function in Python provides detailed information about execution, but its focus is on profiling rather than benchmarking. In contrast, atime is specifically designed for benchmarking R code with high accuracy. While profile.run includes time spent in each function, atime provides more detailed insights into performance differences. atime is designed for R code, whereas profile.run is specific to Python. By providing more accurate measurements, atime is a more advanced tool for performance analysis.
+\citet{profile} developed the \texttt{profile} module in Python's standard library, which is used as a profiling tool that provides detailed information about the execution of one's code. The \texttt{profile.run} function in particular provides detailed information regarding execution, but its focus is on profiling rather than benchmarking. In contrast, \texttt{atime} is specifically designed for benchmarking R code with high accuracy. While \texttt{profile.run} includes time spent in each function, \texttt{atime} provides more detailed insights into performance differences. \texttt{atime} is designed for R code, whereas \texttt{profile.run} is specific to Python.
 \vspace{0.1in}
 
 \textbf{Airspeed Velocity} \\
