@@ -86,7 +86,7 @@ In contrast, \texttt{atime} stands out as it combines both performance testing a
 \citet{profile} developed the \texttt{profile} module in Python's standard library, which is used as a profiling tool that provides detailed information about the execution of one's code. The \texttt{profile.run} function in particular provides detailed information regarding execution, but its focus is on profiling rather than benchmarking. In contrast, \texttt{atime} is specifically designed for benchmarking R code with high accuracy. While \texttt{profile.run} includes time spent in each function, \texttt{atime} provides more detailed insights into performance differences. \texttt{atime} is designed for R code, whereas \texttt{profile.run} is specific to Python.
 \vspace{0.1in}
 
-\textbf{Airspeed Velocity} \\
+\textbf{airspeed velocity} \\
 \citet{airspeed_velocity} created a Python library for measuring the performance of code. This function measures performance of code with lower resolution than atime. While Airspeed Velocity allows writing benchmarks, atime provides asymptotic timing measurements for more accurate analysis. atime is designed for R code, whereas Airspeed Velocity is specific to Python. atime offers more detailed insights into performance differences than Airspeed Velocity. By providing higher resolution measurements, atime is a more advanced tool for performance analysis.
 \vspace{0.1in}
 
@@ -101,11 +101,10 @@ In contrast, \texttt{atime} stands out as it combines both performance testing a
 \textbf{touchstone} \\
 \citet{touchstone} created an R package touchstone which is used as a continuous benchmarking tool that focuses on reliable relative measurement and uncertainty reporting, whereas atime provides asymptotic timing measurements for more accurate analysis. While touchstone tracks performance changes, atime offers more detailed insights into performance differences. atime is designed for R code, whereas touchstone is also an R package. By providing higher resolution measurements, atime is a more advanced tool for performance analysis. atime complements touchstone and offers a more advanced solution for performance analysis.
 
-    
-\noindent When selecting an appropriate package or function for performance testing, researchers should consider the specific requirements of their benchmarking task. Factors to weigh include the desired level of precision, the complexity of the code being benchmarked, and the need for visualization or statistical analysis of the results. This is why we recommend the atime package and its functions for benchmarking.
+\noindent When selecting an appropriate package or function for performance testing, researchers should consider the specific requirements of their benchmarking task. Factors to weigh in include the desired level of precision, the complexity of the code being benchmarked, and the need for visualization or statistical analysis of the results. Considering all things, we recommend the \texttt{atime} package and its functions for benchmarking.
 
 \subsection{Features of the Package}
-The \code{atime()}  package in R offers several key features that make it a valuable tool for comparative asymptotic timing analysis.
+The package offers several key features that make it a valuable tool for comparative asymptotic timing analysis.
 
 \textbf{Asymptotic Time and Memory Measurement:} \\
 The primary function in the atime package is \code{atime())}, which allows you to measure the time and memory usage of R expressions as the size of the input data increases. This enables you to understand the asymptotic complexity of your code and identify potential performance bottlenecks.
