@@ -5,19 +5,20 @@
 \maketitle
 
 \abstract{}
-When developing R packages, understanding how your code performs is important, this is why analyzing time complexity is beneficial. Analysing time complexity help us understand how algorithms scale as data size increases, providing performance insights. Previous work has produced various packages and functions for performance benchmarking, yet we often do not prioritize time and memory complexity, even though they are important.
-We propose a new package named \texttt{atime}, for asymptotic timing, performance testing and comparative benchmarking. We are evaluating the features of \texttt{atime} against previous functions and packages, investigating its integrated GitHub action, and comparing its performance with other R packages for benchmarking that has GitHub actions integrated in it. 
+When developing R packages, understanding code performance is crucial, which is why analyzing time complexity is beneficial. It helps us gauge how algorithms scale as data size grows, offering valuable insights into performance trends. While previous work has introduced various packages and functions for performance benchmarking, we often do not prioritize time and memory complexity, despite their importance.
+
+We propose a new package named \texttt{atime}, for asymptotic timing, performance testing and comparative benchmarking. We will be evaluating the features of it against previous functions and packages, investigating the GitHub Action that integrates it, and comparing its performance with other R packages that make use of GitHub Actions for benchmarking. 
 
 \section{Introduction}
- In the field of computer science and algorithm development, performance analysis plays a crucial role in determining the efficiency and effectiveness of different algorithms as mentioned in \cite{knuth1997art}. The performance of an R package provides beneficial measures to assess model quality, many of which are not directly provided by R's \texttt{base} or \texttt{stats} packages as discussed by \cite{RcoreTeam}. Performance analysis helps us identify the most efficient algorithms for a given task, optimize code versions, and make informed decisions about algorithm selection in real-world applications. Several factors contributing to an algorithm's performance, including its time and memory complexity are discussed in the latest edition of introduction to algorithms \cite{cormen2022introduction}.\\
+ In the field of Computer Science, performance analysis plays a crucial role in determining the efficiency and effectiveness of different algorithms as mentioned in \cite{knuth1997art}. The performance of an R package provides beneficial measures to assess model quality, many of which are not directly provided by R's \texttt{base} or \texttt{stats} packages as discussed by \cite{RcoreTeam}. Performance analysis helps us identify the most efficient algorithms for a given task, optimize code versions, and make informed decisions about algorithm selection in real-world applications. Several factors contributing to an algorithm's performance, including its time and memory complexity are discussed in the latest edition of introduction to algorithms \cite{cormen2022introduction}.\\
 
 \noindent Understanding the \code{atime} package requires knowledge of asymptotic complexity, also known as "Big O" notation. Asymptotic complexity describes how an algorithm's runtime or memory usage scales as the size of the input data increases. Analyzing performance characteristics, including time and space complexity, is critical when working with large datasets. In \cite{Hocking2021}, his analysis provides valuable insights into trade-offs between convenience and computational efficiency, enabling users to make informed decisions when selecting data reshaping tools.
  
-\noindent \cite{suh2017emp} discusses the importance of accurately measuring a program execution time, a common performance evaluation technique in computer science research. They highlight the distinction between elapsed time (ET) and process time (PT), where ET represents the end-to-end time of a program, while PT focuses solely on the execution time of the process of interest, atime addresses this challenge by providing a powerful tool for analyzing and comparing the asymptotic time and memory usage of different R codes.
+\noindent \cite{suh2017emp} discusses the importance of accurately measuring a program execution time, a common performance evaluation technique in computer science research. They highlight the distinction between elapsed time (ET) and process time (PT), where ET represents the end-to-end time of a program, while PT focuses solely on the execution time of the process of interest. \texttt{atime} addresses this challenge by providing a powerful tool for analyzing and comparing the asymptotic time and memory usage of different R programs.
 
-\noindent Several packages such as \texttt{microbenchmark} by \cite{microbenchmark}, \texttt{bench} developed by \cite{bench}, and \texttt{system.time} by \cite{system.time} exist for benchmarking. This section discusses these packages and compares them with atime. Unlike the functions from these packages which compare timings for a single value, \texttt{atime} allows users to check execution time over a sequence of data sizes (\texttt{N}) and visualize the results.\\ 
+\noindent Several packages such as \texttt{microbenchmark} by \cite{microbenchmark}, \texttt{bench} developed by \cite{bench}, and \texttt{system.time} by \cite{system.time} exist for benchmarking. This section discusses these packages and compares them with \texttt{atime}. Unlike the functions from these packages which compare timings for a single value, \texttt{atime} allows users to check execution time over a sequence of data sizes (\texttt{N}) and visualize the results.\\ 
 
-\noindent Lastly we will also discuss two key function of our proposed package: comparative benchmarking and performance testing with atime. Through comparative benchmarking, we compare package performance, providing insights into their usage and empowering data scientists to make informed decisions. Performance testing enables us to detect and prevent significant performance regressions, ensuring that slowness or excessive memory usage does not compromise user experience.\\
+\noindent Lastly, we will also discuss two key function of our proposed package: Comparative benchmarking and performance testing with \texttt{atime}. Through comparative benchmarking, we compare package performance, providing insights into their usage and empowering data scientists to make informed decisions. Performance testing enables us to detect and prevent significant performance regressions, ensuring that slowness or excessive memory usage does not compromise user experience.\\
 
 \section{Related work}
 
@@ -42,7 +43,7 @@ rbenchmark & R & - & Comparative benchmarking\\
 \hline
 airspeed velocity & python & Custom web page & Performance testing\\
 \hline
-conbench & arrow  & - & performance testing\\
+conbench & arrow & - & Performance testing\\
 \hline
 touchstone & R & PR comments & Performance testing\\
 \hline
@@ -50,14 +51,13 @@ pytest-benchmark & Python
 projects with
 pytest &  Custom GitHub page & Performance testing\\
 \hline
-atime(proposed ) & R  & PR comments & Performance testing and comparative benchmarking\\
+atime (proposed) & R  & PR comments & Performance testing and comparative benchmarking\\
 \hline
     \end{tabular}
     \label{tab:my_label}
 \end{table}
 
-\noindent The goal of Table 1 is to compare different benchmarking technologies across various software, functions, and packages, helping to understand the pros and cons of each in comparison to \texttt{atime}, our proposed package. We expect each benchmarking technology to have its own set of strengths, making it suitable for specific tasks, such as comparative benchmarking or performance testing. The table reveals that \texttt{system.time} is used for comparative benchmarking in R packages, while \texttt{microbenchmark} is used for comparative benchmarking in R packages. \texttt{airspeed velocity} is used for performance testing in python with integrated GitHub Actions which comments results to a custom web page, \texttt{conbench} for performance testing in arrow, and touchstone for performance testing in R with a GitHub action which comment results on the Pull Requests(PR) as a comments. \texttt{atime} stands out as it combines both performance testing and comparative benchmarking, with an integrated GitHub action that facilitate performance testing of the incoming changes that are introduced via PRs to the GitHub repositories of R packages. This action publishes results in a GitHub-bot authored comment on the pull request thread with detailed version-based visualizations of performance trends that stem from test cases, making it convenient for developers to keep a check on the PR-suggested changes for potential regressions and improvements. \\
-
+\noindent The goal of Table 1 is to compare different benchmarking technologies across various software, functions, and packages, helping to understand the pros and cons of each in comparison to \texttt{atime}, our proposed package. We expect each benchmarking technology to have its own set of strengths, making it suitable for specific tasks, such as comparative benchmarking or performance testing. The table reveals that \texttt{system.time} is used for comparative benchmarking in R packages, while \texttt{microbenchmark} is used for comparative benchmarking in R packages. \texttt{airspeed velocity} is used for performance testing in Python with integrated GitHub Actions which comments results to a custom web page. \texttt{conbench} is used for performance testing in \texttt{arrow}, and \texttt{touchstone} is used for the same but in R with a GitHub action which comments results on Pull Requests (PRs). \texttt{atime} stands out as it combines both performance testing and comparative benchmarking, with an integrated GitHub action that facilitates performance testing of the incoming changes that are introduced via PRs to the GitHub repositories of R packages. This action publishes results in a GitHub-bot authored comment on the pull request thread with detailed version-based visualizations of performance trends that stem from test cases, making it convenient for developers to keep a check on the PR-suggested changes for potential regressions and improvements. \\
 
 \subsection{Comparative Benchmarking}
 
