@@ -202,9 +202,9 @@ Fit asymptotic reference lines
 
 \subsubsection{Comparing R packages performing similar Task.}
 \noindent When working with data in R, we all want to know which tools are the most efficient. That is why we're putting some of the most popular R packages to the test. 
-In this section, we would demonstrate how to use \texttt{atime} for comparative benchmarking for three R functions that perform the same task. We will demonstrate the advantages of using atime for comparative benchmarking over other R packages. The major advantage is it allows us to alternate the expressions over different N sizes. Another advantage is it gives you a more appropriate and easy interpretation of your results visually.\\
+In this section, we would demonstrate how to use \texttt{atime} for comparative benchmarking for three R functions that perform the same task. We will demonstrate the advantages of using \texttt{atime} for comparative benchmarking over other R packages. The major advantage is that it allows us to alternate the expressions over different N sizes. Another advantage is it gives you a more appropriate and easy interpretation of your results visually.\\
 
-\noindent For example, consider the following simple example of comparatively benchmarking three functions from the R packages \code{data.table}, \code{utils}, and \code{readr} for reading a CSV file. Our goal is to provide an idea as to which packages are the fastest and most memory-efficient, so people can choose the best ones for their data analysis needs.\\
+\noindent For example, consider the following case of comparatively benchmarking three functions from the R packages \code{data.table}, \code{utils}, and \code{readr} for reading a CSV file. Our goal is to provide an idea as to which packages are the fastest and most memory-efficient, so people can choose the best ones for their data analysis needs.\\
 
 \begin{lstlisting}[language=R]
 > n.rows <- 100
@@ -285,24 +285,21 @@ List of 3
 
 \noindent The output is a list of three elements, including \texttt{unit.col.vec}, \texttt{seconds.limit}, and \texttt{measurements}, of which each measurement is of class \texttt{data.table} and \texttt{data.frame}. The \texttt{unit.col.vec} is a named character vector with units ("kilobytes" and "median"), and \texttt{seconds.limit} is a numeric value set to 5. The \texttt{measurements} contain 19 observations and 17 variables. This data can be used to create the desired plot with \texttt{ggplot2}..
 
-
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.7\linewidth]{figures/gg.read.3.png}
-    \caption{Comparing different functions for reading a csv file}
+    \caption{Comparing different functions for reading a CSV file}
     \label{fig:label2}
 \end{figure}
 
-\noindent Figure 2 is comparing the performance of three different methods for reading data into R \texttt{utils::read\_csv}, \texttt{readr::read\_csv}, and \texttt{data.table::fread} as the number of columns increases. As expected, the computation time for each method increases with the number of columns, but at different rates, revealing which method is more efficient for larger datasets. The figure shows that \texttt{data.table::fread} is consistently faster than the others across all column sizes, with \texttt{utils::read\_csv} and \texttt{readr::read\_csv} taking longer as the number of columns grows. The N-values (3701, 15855, and 10771) represent the sample size for each method, providing context for the variability and confidence intervals shown in the graph. Overall, this figure reveals that \texttt{data.table::fread} is the most efficient method, especially for larger datasets, providing crucial insight for choosing the best method for reading large data files in R.\\
-
+\noindent Figure 2 is comparing the performance of three different methods for reading data into R as the number of columns increases: \texttt{utils::read\_csv}, \texttt{readr::read\_csv}, and \texttt{data.table::fread}. As expected, the computation time for each method increases with the number of columns, but at different rates, revealing which method is more efficient for larger datasets. The figure shows that \texttt{data.table::fread} is consistently faster than the others across all column sizes, with \texttt{utils::read\_csv} and \texttt{readr::read\_csv} taking longer as the number of columns grows. The N-values (3701, 15855, and 10771) represent the sample size for each method, providing context for the variability and confidence intervals shown in the graph. Overall, this figure reveals that \texttt{data.table::fread} is the most efficient method, especially for larger datasets, providing crucial insight for choosing the best method for reading large data files in R.\\
 
 \subsection{Performance Testing}
 The \texttt{atime} package provides a function named \code{atime\_pkg()} which enables users to integrate asymptotic timing and memory analysis into continuous integration and deployment workflows. 
 This can help ensure that new changes to R packages do not introduce performance regressions. When performing these performance tests, we use \code{atime::atime\_versions()}.
 Performance testing can be done on any R package written with \texttt{Rcpp}.\\
 
-
-\noindent we will discuss how to use \code{atime::atime\_versions()} to create performance testing for the \texttt{data.table} package in R.
+\noindent Now we will discuss how to use \code{atime::atime\_versions()} to create performance testing for the \texttt{data.table} package in R.
 \texttt{data.table} is a powerful extension of R's \texttt{data.frame}, designed to handle large datasets with exceptional efficiency. Its concise and expressive syntax enables users to perform complex data manipulations with ease, making it an ideal tool for data analysis. The development team behind \texttt{data.table} is dedicated to continuously optimize its performance, ensuring swift execution of tasks like filtering, grouping, aggregating, and joining data.
 \vspace{0.1in}
 To guarantee high-performance standards, \texttt{data.table} employs a robust performance testing framework. This framework measures the actual execution time of specific operations, enabling accurate comparisons between different package versions. 
@@ -316,7 +313,6 @@ By conducting these tests, we gain valuable insights into a package's performanc
 
 \begin{itemize}
     
-
 \item \textit{To begin}, conduct the \texttt{atime} test for the different code branches (before regression, regression, fix regression) to identify potential performance issues. 
 \vspace{0.1in}
 
@@ -357,7 +353,6 @@ We check the full performance cycle:
     \item When the performance regression persists (Regression/Slow)
     \item Pull Request (PR) which fixes the performance regression (Fixed/Fast)
 \end{enumerate}
-
 
 \noindent Performance test case with two code branches: 'Fast' and 'Slow':\\
 
@@ -411,7 +406,6 @@ We check the full performance cycle:
 \noindent This code above is almost as the first simple, except it has three code branches - 'Before', 'Regression' and 'Fixed'. It benchmarks the performance of different versions of the \texttt{data.table} package by measuring the computational time for a specific operation on a \texttt{data.table} with varying numbers of rows.
 The output as mentioned previously will capture the computational time for each version of the \texttt{data.table} package (Before, Regression, and Fixed) across different dataset sizes. It will compare the performance of these versions, highlighting the impact of the regression and the effectiveness of the fix. \\
 
-
     \begin{verbatim}
     data.table.793f8545c363d222de18ac892bc7abb80154e724::`[.data.table`(d, , (max(v1) - min(v2)), by = id3)  
     \end{verbatim}
@@ -428,21 +422,20 @@ The output as mentioned previously will capture the computational time for each 
 
 \noindent Again, we explore the \texttt{data.table} repository to find pull requests relating to three code branches, to show another performance test. The figure compares the computational time of three package versions - 'Before', 'Regression', and 'Fixed', to understand the impact of the regression and the effectiveness of the fix. As expected, computational time increases during the regression phase and decreases after the fix, either returning to or improving upon the pre-regression time (Before). The figure shows three distinct regions: a stable 'Before' region, a slower 'Regression' region, and a faster 'Fixed' region, indicating the regression's significant impact and the fix's effectiveness in mitigating it. Overall, the regression substantially increased computational time, but the fix successfully restored or even improved performance, making the package more efficient.\\
 
-
 \section{Performance Testing with github actions CI}
 \section{Section by Anirban Chetia}
 
-A github action was created by Anirban to facilitate performance testing of the incoming changes that are introduced via Pull Requests (PRs) to the github repositories of R packages. The primary motivation behind this was to help ensure that \code{data.table}, a popular R package, maintains its code efficiency or high-performance standards (core values of the project) as PRs keep coming and getting integrated frequently into the codebase, meaning they need to be monitored for performance regressions, and an automatic way to do that would be ideal.
+A GitHub Action was created by Anirban to facilitate performance testing of the incoming changes that are introduced via Pull Requests (PRs) to the GitHub repositories of R packages. The primary motivation behind this was to help ensure that \code{data.table}, a popular R package, maintains its code efficiency or high-performance standards (core values of the project) as PRs keep coming and getting integrated frequently into the codebase, meaning they need to be monitored for performance regressions, and an automatic way to do that would be ideal.
 \newline
 \newline
-The key features of this github action include:
+The key features of this Github Action include:
 \begin{itemize}
     \item \textbf{Predefined flexible tests} 
     \newline
     The action runs test cases (utilizing the \code{atime} package) from the setup defined in \code{.ci/atime/tests.R} (can be customized) on different versions of \code{data.table} or the R package being tested. These tests are either based on documented historical regressions or performance improvements.
     \item \textbf{Automated commenting}
     \newline
-    Using \code{cml}, the action publishes results in a github-bot authored comment on the pull request thread. The comment gets updated time and again on new pushes to avoid cluttering (ensuring only one comment exists per PR, updated with the latest information concisely). 
+    Using \code{cml}, the action publishes results in a GitHub-bot authored comment on the pull request thread. The comment gets updated time and again on new pushes to avoid cluttering (ensuring only one comment exists per PR, updated with the latest information concisely). 
     \item \textbf{Diagnostic visualization}
     \newline
     A plot is uploaded within the comment which comprises of subplots for each test case, showing the time and memory trends across different \code{data.table} versions.
@@ -451,8 +444,7 @@ The key features of this github action include:
     The time taken (in seconds) for setup and test execution is supplied within the comment as well.
     \item \textbf{Links}
     \newline
-    A download link for the artifact containing all the \code{atime}-generated results is provisioned, apart from the github link to the commit SHA that generated the latest plot results.
-
+    A download link for the artifact containing all the \code{atime}-generated results is provisioned, apart from the GitHub link to the commit SHA that generated the latest plot results.
     \item \textbf{Versioning}
     \newline
     The action computes the tests on different \code{data.table} versions that can be visually compared on the resultant plot. These include various labels, as described in the table below:
@@ -485,7 +477,7 @@ The key features of this github action include:
 The action is not constrained to be OS-specific and there is only one single job or set of steps that execute on the same runner.
 \newline
 \newline
-There are ample examples of this in action within the official \code{data.table} github repository's 'Pull requests' section (actively running as new PRs involving code changes emerge). The figure below is taken from one of those recent (at the time of writing) runs.
+There are ample examples of this in action within the official \code{data.table} GitHub repository's 'Pull requests' section (actively running as new PRs involving code changes emerge). The figure below is taken from one of those recent (at the time of writing) runs.
 
 \begin{figure}[H]
     \centering
