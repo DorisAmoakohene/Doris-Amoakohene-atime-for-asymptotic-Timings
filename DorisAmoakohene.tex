@@ -30,7 +30,7 @@ We propose a new package named \texttt{atime}, for asymptotic timing, performanc
         \caption{Comparing atime and other packages}
     \begin{tabular}{|m{2.6cm}|m{2cm}|m{3cm}|m{3cm}|m{4cm}|}
     \hline
-         & Project & Github Action & Benchmarking technique\\
+         & Project & Github Actions & Benchmarking technique\\
 \hline
 bench & R  & - &  Comparative benchmarking \\
 
@@ -41,7 +41,7 @@ system.time & R & - & Comparative benchmarking\\
 \hline
 rbenchmark & R & - & Comparative benchmarking\\
 \hline
-airspeed velocity & python & Custom web page & Performance testing\\
+airspeed velocity & Python & Custom web page & Performance testing\\
 \hline
 conbench & arrow & - & Performance testing\\
 \hline
@@ -49,9 +49,9 @@ touchstone & R & PR comments & Performance testing\\
 \hline
 pytest-benchmark & Python
 projects with
-pytest &  Custom GitHub page & Performance testing\\
+pytest & Custom GitHub page & Performance testing\\
 \hline
-atime (proposed) & R  & PR comments & Performance testing and comparative benchmarking\\
+atime (proposed) & R & PR comments & Performance testing and comparative benchmarking\\
 \hline
     \end{tabular}
     \label{tab:my_label}
@@ -62,27 +62,25 @@ atime (proposed) & R  & PR comments & Performance testing and comparative benchm
 \subsection{Comparative Benchmarking}
 
 \textbf{bench:} \\
-\citet{bench} proposed the \texttt{bench} package in R, which provides a flexible benchmarking tool to measure time and memory usage of code, including \texttt{bench\_mark()} for basic benchmarking, \texttt{press()} for repeated benchmarks, and \texttt{autoplot()} for visualizations. It offers functionality which focuses solely on time and memory requirements for a single data size. The proposed atime package offers advanced benchmarking capabilities for R code, surpassing existing solutions in precision and detail. Unlike bench, which focuses solely on time and memory measurement for a single data size, atime provides asymptotic timing measurements for analysis.
+\citet{bench} proposed the \texttt{bench} package in R, which provides a flexible benchmarking tool to measure time and memory usage of code, including \texttt{bench\_mark()} for basic benchmarking, \texttt{press()} for repeated benchmarks, and \texttt{autoplot()} for visualizations. It offers functionality which focuses solely on time and memory requirements for a single data size. The proposed \texttt{atime} package offers advanced benchmarking capabilities for R code, surpassing existing solutions in precision and detail. Unlike \texttt{bench} which focuses solely on time and memory measurement for a single data size, \texttt{atime} provides asymptotic timing measurements for analysis.
 \vspace{0.1in}
 
 \textbf{microbenchmark} \\
-\citet{microbenchmark} proposed the \texttt{microbenchmark}, this is an R package that provides nanosecond-precision timing of multiple R expressions, with controls such as randomization of execution order. This allows for precise and robust measurement of execution time. In comparison to the proposed \code{atime()}, the propose measures both execution time and memory usage, whereas \texttt{microbenchmark} only measures execution time 
+\citet{microbenchmark} proposed the \texttt{microbenchmark}, which is an R package that provides nanosecond-precision timing of multiple R expressions, with controls such as randomization of execution order. This allows for precise and robust measurement of execution time, but note that it only measures execution time. \code{atime()} on the other hand measures both execution time and memory usage.
 \vspace{0.1in}
 
 \textbf{system.time} \\
-\citet{system.time} is a base R function which provides a quick way to measure the execution time of code but has a relatively coarse resolution in the millisecond range.  While \citet{system.time} provides basic performance evaluation, \texttt{atime} offers detailed and accurate assessments of code performance with microsecond-level resolution
+\citet{system.time} is a base R function which provides a quick way to measure the execution time of code but has a relatively coarse resolution in the millisecond range.  While \citet{system.time} provides basic performance evaluation, \texttt{atime} offers detailed and accurate assessments of code performance with microsecond-level resolution.
 \vspace{0.1in}
-
 
 \subsection{Performance Testing}
 \textbf{timeit} \\
-\citet{timeit} proposed the \texttt{timeit} module in Python which measures execution time with lower resolution than atime. While \texttt{timeit} calculates average execution time, \texttt{atime} provides asymptotic timing measurements for more accurate analysis. \texttt{timeit} is specific to Python, whereas \texttt{atime} is designed for R code and offers more detailed insights into performance differences.
+\citet{timeit} proposed the \texttt{timeit} module in Python which measures execution time with lower resolution than \texttt{atime}. While \texttt{timeit} calculates average execution time, \texttt{atime} provides asymptotic timing measurements for more accurate analysis. \texttt{timeit} is specific to Python, whereas \texttt{atime} is designed for R and offers more detailed insights into performance differences.
 \vspace{0.1in}
 
 \textbf{profile.run} \\
 \citet{profile} developed the \texttt{profile} module in Python's standard library, which is used as a profiling tool that provides detailed information about the execution of one's code. The \texttt{profile.run} function in particular provides detailed information regarding execution, but its focus is on profiling rather than benchmarking. In contrast, \texttt{atime} is specifically designed for benchmarking R code with high accuracy. While \texttt{profile.run} includes time spent in each function, \texttt{atime} provides more detailed insights into performance differences. \texttt{atime} is designed for R code, whereas \texttt{profile.run} is specific to Python.
 \vspace{0.1in}
-
 
 \textbf{airspeed velocity} \\
 \citet{airspeed_velocity} created a Python library for measuring the performance of code. This function measures performance of code with lower resolution than \texttt{atime}. While \texttt{airspeed velocity} allows writing benchmarks, \texttt{atime} provides asymptotic timing measurements for more accurate analysis. \texttt{atime} is designed for R code, whereas \texttt{airspeed velocity} is specific to Python. \texttt{atime} offers more detailed insights into performance differences than \texttt{airspeed velocity}. By providing higher resolution measurements, \texttt{atime} is a more advanced tool for performance analysis.
@@ -90,31 +88,29 @@ atime (proposed) & R  & PR comments & Performance testing and comparative benchm
 \vspace{0.1in}
 
 \textbf{pytest-benchmarks} \\
-\citet{pytest_benchmark} developed the Pytest-benchmarks which integrates \texttt{airspeed velocity} benchmarking into \texttt{pytest}, but its resolution may not be sensitive enough to detect small differences. In contrast, \texttt{atime} offers higher resolution and more precise asymptotic timing measurements. While \texttt{pytest-benchmark} tracks performance regressions, \texttt{atime} provides more detailed insights into performance differences. \texttt{atime} is designed for R code, whereas \texttt{pytest-benchmark} is specific to Python. By providing more accurate measurements, \texttt{atime} is a more advanced tool for performance analysis.
+\citet{pytest_benchmark} developed \texttt{pytest-benchmark} which integrates \texttt{airspeed velocity} benchmarking into \texttt{pytest}, but its resolution may not be sensitive enough to detect small differences. In contrast, \texttt{atime} offers higher resolution and more precise asymptotic timing measurements. While \texttt{pytest-benchmark} tracks performance regressions, \texttt{atime} provides more detailed insights into performance differences. \texttt{atime} is designed for R code, whereas \texttt{pytest-benchmark} is specific to Python. By providing more accurate measurements, \texttt{atime} is a more advanced tool for performance analysis.
 \vspace{0.1in}
 
 \textbf{conbench} \\
-\citet{conbench} proposed conbench, it's focuses on comparing machine learning models and provides standardized benchmarking, atime offers higher resolution and more precise asymptotic timing measurements. atime provides more detailed insights into performance differences than conbench. By providing more accurate measurements,\code{atime} is a more advanced tool for performance analysis. atime is specific to R code, whereas conbench is designed for machine learning models.
+\citet{conbench} proposed \texttt{conbench}, which focuses on comparing machine learning models and provides standardized benchmarking, while \texttt{atime} offers higher resolution and more precise asymptotic timing measurements. \texttt{atime} is also specific to R code, whereas \texttt{conbench} is designed for machine learning models.
 \vspace{0.1in}
 
 \textbf{touchstone} \\
-\citet{touchstone} created an R package touchstone which is used as a tool for continuous benchmarking with a focus on reliable relative measurement, uncertainty reporting and user convenience. \texttt{touchstone} is tailored for reliable relative measurements and uncertainty reporting, \texttt{atime} offer advantages in automation, integration, and user experience. The choice between the two will ultimately depend on specific project requirements and the desired benchmarking capabilities.
+\citet{touchstone} created an R package named \texttt{touchstone} which is used as a tool for continuous benchmarking with a focus on reliable relative measurement, uncertainty reporting, and user convenience. \texttt{touchstone} is tailored for reliable relative measurements and uncertainty reporting, whereas \texttt{atime} offers advantages in automation, integration, and user experience. The choice between the two will ultimately depend on project-specific requirements and the desired benchmarking capabilities.
 
-    
 \noindent When selecting an appropriate package or function for performance testing, researchers should consider the specific requirements of their benchmarking task. Factors to weigh in include the desired level of precision, the complexity of the code being benchmarked, and the need for visualization or statistical analysis of the results. Considering all things, we recommend the \texttt{atime} package and its functions for benchmarking.
 
-\subsection{Features of the Package}
+\subsection{Features of atime}
 The package offers several key features that make it a valuable tool for comparative asymptotic timing analysis.
 
 \textbf{Asymptotic Time and Memory Measurement:} \\
-The primary function in the atime package is \code{atime())}, which allows you to measure the time and memory usage of R expressions as the size of the input data increases. This enables you to understand the asymptotic complexity of your code and identify potential performance bottlenecks.
+The primary function in the \texttt{atime} package is \code{atime())}, which allows us to measure the time and memory usage of R expressions as the size of the input data increases. This also enables us to understand the asymptotic complexity of our code and identify potential performance bottlenecks.
 \vspace{0.1in}
 
 \textbf{Asymptotic Reference Lines:} \\
-The \texttt{references\_best()} function in atime compute best asymptotic references, for all empirical measurements which are present (not missing) and increasing with data size. it is used by specifying
+The \texttt{references\_best()} function in \texttt{atime} computes best asymptotic references, for all empirical measurements which are present (not missing) and increasing with data size. it is used by specifying
 
 \texttt{references\_best(L, fun.list=NULL)}
-
 
 \begin{lstlisting}
 Arguments:
@@ -139,7 +135,7 @@ The \texttt{predict()} function in \texttt{atime} allows you to estimate the dat
 \vspace{0.1in}
 
 \textbf{Version Comparison:} \\
-The \texttt{atime\_versions()} function enables you to compare the performance of different git commits, helping you understand the impact of computational time and memory for a single R expression evaluated using several different git versions.
+The \texttt{atime\_versions()} function enables us to compare the performance of different git commits, helping to understand the impact of computational time and memory for a single R expression evaluated using several different git versions.
 For convenience, versions can be specified either as code (\texttt{...}), data (\texttt{sha.vec}), or both. Each version should be either an empty string (\texttt{""}) to use the currently installed version of the package (or, if missing, to install the most recent version from CRAN), or a SHA1 hash, which is passed as the \texttt{branch} argument to \texttt{git2r::checkout}. Version names are used to identify and interpret the output and plots. See the \texttt{atime} vignette for more details.
 
 \vspace{0.1in}
@@ -150,15 +146,11 @@ The \texttt{atime\_pkg()} function enables the integration of asymptotic timing 
 
 In detail, there should be a \texttt{tests.R} file that defines \texttt{test.list}, a list where each element corresponds to a different test. Each element in this list must include at least three named elements: \texttt{N}, \texttt{setup}, and \texttt{expr}. Additional elements like \texttt{pkg.edit.fun} and \texttt{version\_name="1234567890abcdef"} can also be included. These elements are passed as named arguments to \texttt{atime\_versions}, along with versions specified using the \texttt{sha.vec} argument. The base reference version is derived from the \texttt{GITHUB\_BASE\_REF} environment variable (default is \texttt{master}).
 
-
 \vspace{0.1in}
-
-
 
 \section{Results / empirical comparisons}
 
 \noindent The \texttt{atime} package offers new approaches to comparative benchmarking and performance testing through its two primary functions: \code{atime::atime()} and \code{atime::atime\_versions()}. For a detailed explanation of the syntax, please refer to the \texttt{atime} package vignettes. In this section, we will demonstrate how to utilize the new \texttt{atime} functions for comparative benchmarking and performance testing. We start by using these functions to capture the execution times and memory usage of various code algorithms, providing a thorough understanding of their performance. The subsequent plots and visualizations will illustrate the comparative benchmarking and performance testing results, showcasing performance improvements over time.\\
-
 
 \subsection{Proposed method: atime for measuring asymptotic time and memory}
 
@@ -202,12 +194,11 @@ Fit asymptotic reference lines
 
 \noindent The goal of creating this figure is to understand how computational time scales with increasing dataset size for two different scenarios: one with fixed time complexity and another with time proportional to some function of N. As expected, the computational time for the fixed-time scenario remains relatively constant, while the proportional-time scenario shows a more rapid increase as the dataset size grows. The figure confirms this expectation, with both computational times increasing as N increases, but the proportional-time line showing a steeper increase. For smaller values of N, both scenarios have similar computational times, but they diverge significantly for larger values of N. This figure reveals that while both fixed-time and proportional-time computations take longer with larger datasets, proportional-time computation becomes significantly more time-consuming as dataset size grows very large, providing crucial insight for choosing between different algorithms on their expected performance with large amounts of data.\\
 
-
 \subsection{Comparative Benchmarking}
 
-\noindent Comparative benchmarking is the process of comparing the performance of different algorithms or approaches for benchmarking. It allows us to assess packages performance against different packages and algorithms by measuring execution time and memory usage.\\
+\noindent Comparative benchmarking is the process of comparing the performance of different algorithms or approaches for benchmarking. It allows us to assess the relative performance of packages and algorithms by measuring execution time and memory usage.\\
 
-\noindent \texttt{atime} offers comparative benchmarking technique to evaluate packages, providing insights into performance efficiency. By conducting a comparative benchmark these tests, we ensure package remains a high-performance tool for data analysis, delivering reliable results for end-users\\
+\noindent \texttt{atime} offers comparative benchmarking to evaluate packages, providing insights into performance efficiency. By conducting these tests, we can ensure our package remains a high-performance tool for data analysis.\\
 
 \subsubsection{Comparing R packages performing similar Task.}
 \noindent When working with data in R, we all want to know which tools are the most efficient. That is why we're putting some of the most popular R packages to the test. 
