@@ -402,15 +402,17 @@ We check the full performance cycle:
 + )
 \end{lstlisting}
 
-\noindent This code above is almost as the first simple, except it has three code branches - 'Before', 'Regression' and 'Fixed'. It benchmarks the performance of different versions of the \texttt{data.table} package by measuring the computational time for a specific operation on a \texttt{data.table} with varying numbers of rows.
+\noindent This code above is almost as the Figure 3(Performance test case with two code branches: 'Fast' and 'Slow), except it has three code branches - 'Before', 'Regression' and 'Fixed'. It benchmarks the performance of different versions of the \texttt{data.table} package by measuring the computational time for a specific operation on a \texttt{data.table} with varying numbers of rows.
 The output as mentioned previously will capture the computational time for each version of the \texttt{data.table} package (Before, Regression, and Fixed) across different dataset sizes. It will compare the performance of these versions. \\
+
+
 
     \begin{verbatim}
     data.table.793f8545c363d222de18ac892bc7abb80154e724::`[.data.table`(d, , (max(v1) - min(v2)), by = id3)  
     \end{verbatim}
     
 \vspace{0.1in}
-\noindent In this code, the expression \texttt{[.data.table]} is executed on the \texttt{d} dataset using the specified commit IDs (793f8545c363d222de18ac892bc7abb80154e724) of the \texttt{data.table} package. The expression calculates the difference between the maximum value of \texttt{v1} and the minimum value of \texttt{v2}, and is grouped by \texttt{id3}. This process is repeated for all commit IDs in the code to compare the performance of different versions of the \texttt{data.table} package.\\
+\noindent In the code snippet above, the expression \texttt{[.data.table]} is executed on the \texttt{d} dataset using the specified commit IDs (793f8545c363d222de18ac892bc7abb80154e724) of the \texttt{data.table} package. The expression calculates the difference between the maximum value of \texttt{v1} and the minimum value of \texttt{v2}, and is grouped by \texttt{id3}. This process is repeated for all commit IDs in the code to compare the performance of different versions of the \texttt{data.table} package.\\
 
 \begin{figure}[H]
     \centering
@@ -421,7 +423,7 @@ The output as mentioned previously will capture the computational time for each 
 
 \noindent Again, we explore the \texttt{data.table} repository to find pull requests relating to three code branches, to show another performance test. The figure compares the computational time of three package versions - 'Before', 'Regression', and 'Fixed', to understand the impact of the regression and the effectiveness of the fix. As expected, computational time increases during the regression phase and decreases after the fix, either returning to or improving upon the pre-regression time (Before). The figure shows three distinct regions: a stable 'Before' region, a slower 'Regression' region, and a faster 'Fixed' region, indicating the regression's significant impact and the fix's effectiveness in mitigating it. Overall, the regression substantially increased computational time, but the fix successfully restored or even improved performance, making the package more efficient.\\
 
-\section{Performance Testing with github actions CI}
+\section{Performance Testing with GitHub Actions CI}
 \section{Section by Anirban Chetia}
 
 A GitHub Action was created by Anirban to facilitate performance testing of the incoming changes that are introduced via Pull Requests (PRs) to the GitHub repositories of R packages. The primary motivation behind this was to help ensure that \code{data.table}, a popular R package, maintains its code efficiency or high-performance standards (core values of the project) as PRs keep coming and getting integrated frequently into the codebase, meaning they need to be monitored for performance regressions, and an automatic way to do that would be ideal.
