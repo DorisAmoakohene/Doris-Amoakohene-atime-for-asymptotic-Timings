@@ -370,7 +370,7 @@ We check the full performance cycle:
 + )
 \end{lstlisting}
 
-\noindent The code above benchmarks the performance of different versions of the \texttt{data.table} package by measuring the computational time for a \texttt{setDT} operation on a \texttt{data.table} with varying numbers of rows. It helps in understanding the impact of the regression and the effectiveness of the fix. \\
+\noindent The code above benchmarks the performance of different versions of the \texttt{data.table} package by measuring the computational time for a \texttt{setDT} operation on a \texttt{data.table} with varying numbers of rows.\\
 
 \begin{figure}[H]
     \centering
@@ -379,7 +379,7 @@ We check the full performance cycle:
     \label{fig:label3}
 \end{figure}
 
-\noindent \noindent We created a performance test from the pull request reported on the \texttt{data.table} repository with the goal of comparing the computational time of two versions of the package, one with the regression ("Slow"), and one being a newer version ("Fast") released to mitigate the slowness. As expected, the "Slow" version exhibits higher computational times as the number of rows increases, while the "Fast" version maintains lower computational times, demonstrating improved performance and efficiency. The figure shows that for smaller datasets, both versions have similar computational times, but as the number of rows grows, the "Slow" version becomes significantly slower, whereas the "Fast" version maintains a lower computational time. This comparison clearly shows that the new "Fast" version successfully mitigates the regression and enhances performance. The output captures the computational time for each version of the \texttt{data.table} package across different dataset sizes, providing a comprehensive understanding of the impact of the regression and the effectiveness of the new version.\\
+\noindent \noindent We created a performance test from the pull request reported on the \texttt{data.table} repository with the goal of comparing the computational time of two versions of the package, one with the regression ("Slow"), and one being a newer version ("Fast") released to mitigate the slowness. As expected, the "Slow" version exhibits higher computational times as the number of rows increases, while the "Fast" version maintains lower computational times, demonstrating improved performance and efficiency. The figure shows that for smaller datasets, both versions have similar computational times, but as the number of rows grows, the "Slow" version becomes significantly slower, whereas the "Fast" version maintains a lower computational time. This comparison clearly shows that the new "Fast" version successfully mitigates the regression and enhances performance. The output captures the computational time for each version of the \texttt{data.table} package across different dataset sizes.\\
 
 \noindent Performance test case with three code branches: 'Before', 'Regression', and 'Fixed': \\
 
@@ -403,7 +403,7 @@ We check the full performance cycle:
 \end{lstlisting}
 
 \noindent This code above is almost as the first simple, except it has three code branches - 'Before', 'Regression' and 'Fixed'. It benchmarks the performance of different versions of the \texttt{data.table} package by measuring the computational time for a specific operation on a \texttt{data.table} with varying numbers of rows.
-The output as mentioned previously will capture the computational time for each version of the \texttt{data.table} package (Before, Regression, and Fixed) across different dataset sizes. It will compare the performance of these versions, highlighting the impact of the regression and the effectiveness of the fix. \\
+The output as mentioned previously will capture the computational time for each version of the \texttt{data.table} package (Before, Regression, and Fixed) across different dataset sizes. It will compare the performance of these versions. \\
 
     \begin{verbatim}
     data.table.793f8545c363d222de18ac892bc7abb80154e724::`[.data.table`(d, , (max(v1) - min(v2)), by = id3)  
