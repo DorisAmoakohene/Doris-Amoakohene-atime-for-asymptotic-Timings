@@ -166,37 +166,7 @@ In detail, there should be a \texttt{tests.R} file that defines \texttt{test.lis
   \item \textit{times} is the number of times each expression is timed (so we can take the median and ignore outliers).
   \item \textit{seconds.limit} is the maximum number of seconds. If an expression takes more time, then it will not be timed for larger \textit{N} values.
   \item there should also be at least one other named argument (an expression to time for every size \textit{N}, the name is the label which will appear on plots).
-  \item \textit{pkg\_edit\_fun}: A function called to edit a package before installation should typically replace instances of \texttt{PKG} with \texttt{PKG.SHA}. The default works with \texttt{Rcpp} packages, but it does not work with all packages. For an example of a custom package editing function, see the \texttt{atime} vignette about \texttt{data.table}.
-To use the  \item \textit{pkg\_edit\_fun}, A \texttt{test.list} is constructed using the \texttt{atime::atime\_test\_list} function, which provides a flexible method for managing R package metadata and source files to facilitate version-specific installation and testing.
-
-This function is particularly useful for handling the \texttt{data.table} package, which requires modifications to non-standard files (such as the object file name in \texttt{Makevars} and version-checking code in \texttt{onLoad.R}) to support testing across multiple versions, including base versions, pull requests (PRs), commits associated with historical regressions, and more. The function appends a SHA1 hash to the package name (\texttt{PKG.SHA}), allowing each version to be installed and tested independently.
-
-\textbf{Parameters:}
-\begin{itemize}
-    \item \texttt{old.Package}: Current name of the package.
-    \item \texttt{new.Package}: New name of the package, including a SHA1 hash.
-    \item \texttt{sha}: SHA1 hash used for differentiating versions.
-    \item \texttt{new.pkg.path}: Path to the package files.
-\end{itemize}
-
-\textbf{Details:} The function modifies the following:
-\begin{itemize}
-    \item \texttt{DESCRIPTION}, updating the package name.
-    \item \texttt{Makevars}, customizing the shared object file name and adjusting the build settings.
-    \item \texttt{R/onLoad.R}, adapting custom version checking for package loading operations.
-    \item \texttt{NAMESPACE}, changing namespace settings for dynamic linking.
-\end{itemize}
-
-\textbf{Example:}
-\begin{verbatim}
-pkg.edit.fun("data.table", "data.table.some_SHA1_hash", "some_SHA1_hash", "/path/to/data.table")
-\end{verbatim}
-
-\textbf{Return Value:} The function performs in-place file modifications and returns \texttt{None}.
-
-\textbf{Note:} This setup is typically unnecessary for most R packages but is essential for \texttt{data.table} due to its unique configuration.
-
-
+ 
 \end{itemize}
 
 \begin{itemize}
@@ -369,8 +339,39 @@ When using \code{atime\_versions()}, there are six main arguments:
 
 \begin{enumerate}
     \item \textbf{pkg.path:} This argument specifies the location on your system where you have stored a git clone of the \texttt{data.table} package.
+
+   \item \textit{pkg\_edit\_fun}: A function called to edit a package before installation should typically replace instances of \texttt{PKG} with \texttt{PKG.SHA}. The default works with \texttt{Rcpp} packages, but it does not work with all packages. For an example of a custom package editing function, see the \texttt{atime} vignette about \texttt{data.table}.
+To use the  \item \textit{pkg\_edit\_fun}, A \texttt{test.list} is constructed using the \texttt{atime::atime\_test\_list} function, which provides a flexible method for managing R package metadata and source files to facilitate version-specific installation and testing.
+
+This function is particularly useful for handling the \texttt{data.table} package, which requires modifications to non-standard files (such as the object file name in \texttt{Makevars} and version-checking code in \texttt{onLoad.R}) to support testing across multiple versions, including base versions, pull requests (PRs), commits associated with historical regressions, and more. The function appends a SHA1 hash to the package name (\texttt{PKG.SHA}), allowing each version to be installed and tested independently.
+
+\textbf{Parameters:}
+\begin{itemize}
+    \item \texttt{old.Package}: Current name of the package.
+    \item \texttt{new.Package}: New name of the package, including a SHA1 hash.
+    \item \texttt{sha}: SHA1 hash used for differentiating versions.
+    \item \texttt{new.pkg.path}: Path to the package files.
+\end{itemize}
+
+\textbf{Details:} The function modifies the following:
+\begin{itemize}
+    \item \texttt{DESCRIPTION}, updating the package name.
+    \item \texttt{Makevars}, customizing the shared object file name and adjusting the build settings.
+    \item \texttt{R/onLoad.R}, adapting custom version checking for package loading operations.
+    \item \texttt{NAMESPACE}, changing namespace settings for dynamic linking.
+\end{itemize}
+
+\textbf{Example:}
+\begin{verbatim}
+pkg.edit.fun("data.table", "data.table.some_SHA1_hash", "some_SHA1_hash", "/path/to/data.table")
+\end{verbatim}
+
+\textbf{Return Value:} The function performs in-place file modifications and returns \texttt{None}.
+
+\textbf{Note:} This setup is typically unnecessary for most R packages but is essential for \texttt{data.table} due to its unique configuration.
+
        
-    \item \textbf{expr:} This section contains the expression that represents the operation being benchmarked. It uses the \texttt{data.table::[.data.table]} syntax to perform the operation on the dataset. In the given syntax \texttt{data.table::[.data.table]}, the first part \texttt{data.table::} installs and loads different versions of the \texttt{data.table} package based on the specified commit IDs. Hence, \texttt{data.table::} will be translated to \texttt{data.table.SHA1::} for some version hash SHA1. Following that, the expression specified within \texttt{[.data.table]} is executed on each installed version. This process is repeated for all the specified commit IDs in the code.
+\item \textbf{expr:} This section contains the expression that represents the operation being benchmarked. It uses the \texttt{data.table::[.data.table]} syntax to perform the operation on the dataset. In the given syntax \texttt{data.table::[.data.table]}, the first part \texttt{data.table::} installs and loads different versions of the \texttt{data.table} package based on the specified commit IDs. Hence, \texttt{data.table::} will be translated to \texttt{data.table.SHA1::} for some version hash SHA1. Following that, the expression specified within \texttt{[.data.table]} is executed on each installed version. This process is repeated for all the specified commit IDs in the code.
  
     \item \textbf{... :} This section specifies the different versions of the \texttt{data.table} package that will be tested. It includes three versions: ``Before,'' ``Regression,'' and ``Fixed.'' Each version is associated with a specific commit ID.
 \end{enumerate}
