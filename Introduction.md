@@ -5,19 +5,14 @@ Performance analysis is a fundamental component of software development, particu
 This importance is even more pronounced for developers working in environments like R, where large data manipulation and statistical analysis are common, and the performance of code directly impacts the size of data sets that can be handled on a given computer.
 
 \paragraph{Performance testing.}
-%TODO explain what is performance testing?
-%One sentence in general, then a couple of examples.
 
 Performance tests aim to assess a package repository for available version releases and benchmark its performance, including gathering information on memory usage and execution time, of this version release.
 for example in memory usage, the test is to evaluates the memory used by a package during execution. For instance, using tools like \pkg{memory\_profiler} \citet{memory_profiler} in Python, one can track how much memory is consumed at various points in the code. Measuring execution time, involves the time taken for specific functions or processes takes to complete. For example, employing the \pkg{timeit} \citet{timeit} module in Python allows users to run a piece of code multiple times and calculate the average execution time.
 
 \paragraph{Comparative benchmarking.}
-%TODO explain what is comparative benchmarking?
-%One sentence in general, then a couple of examples.
 
 In Comparative benchmarking, we compare and visualize the asymptotic performance (time and memory usage) of the different functions, By comparing the asymptotic performance of these functions in various or particular programming languages, with the aim of provide insights into their usage and to help data scientists make informed choices when it comes to data
 manipulation and analysis. In R \pkg{profvis} \citet{profvis} is used can be used for memory measurement and microbenchmark \citet{microbenchmark} for time measurement.
-
 
 For R package developers, performance testing holds several essential benefits. 
 % The concept presented here aligns with the principles outlined in \citet{performance2021}, which emphasizes the importance of identifying performance bottlenecks to optimize execution times and enhance overall user experience. 
