@@ -1,0 +1,117 @@
+---
+title: "New Codes"
+author: "Doris Amoakohene"
+format: html
+editor: visual
+---
+
+## Best.list
+
+```{r}
+library(atime)
+library(ggplot2)
+library(data.table)
+library(directlabels)
+library(dplyr)
+```
+
+#showing the best fit asymptotic time complexity for each linear and constant timings
+
+```{r}
+(subject.size.vec <- unique(as.integer(10^seq(0,2,l=10))))
+
+atime.list <- atime::atime(
+  N=subject.size.vec,
+  setup={
+    subject <- paste(rep("a", N), collapse="")
+    pattern <- paste(rep(c("a?", "a"), each=N), collapse="")
+  },
+  times=10,
+  seconds.limit=0.1,
+  PCRE = regexpr(pattern, subject, perl=TRUE),
+  TRE = regexpr(pattern, subject, perl=FALSE)
+  )
+```
+
+```{r}
+atime.list
+```
+
+```{r}
+atime.list[["measurements"]][N==323, .(expr.name, seconds=median, kilobytes)]
+```
+
+```{r}
+plot(atime.list)
+
+d <- ggplot(atime.list$measurements, aes(x = N, y = median, group = expr.name, colour = expr.name)) +
+  geom_line() +
+  geom_ribbon(aes(ymin = min, ymax = max, fill = expr.name), alpha = 0.5, colour = NA) +
+  scale_x_log10("N = number of rows in the dataset", limits = c(1, 1e3), breaks = 10^seq(1, 3)) +
+  theme(
+    text = element_text(size = 25),
+    axis.text = element_text(size = 15),
+    axis.title = element_text(size = 15)
+  )+
+  scale_y_log10("Computational Time (Seconds)") +
+  labs(x = "N = number of rows in the dataset", y = "Computational Time (Seconds)") +
+  theme(legend.position = "none")
+
+d <- d + geom_dl(aes(label = gsub(".replacement", "", expr.name)), method = list(dl.combine("last.points"), cex = 1.2))
+
+ggsave("atime.list.png", plot = d, width = 10, height = 5, unit = "in", dpi = 300)
+```
+
+```{r}
+(best.list <- atime::references_best(atime.list))
+plot(best.list)
+
+
+```
+
+```{r}
+# Generate the best list
+best.list <- atime::references_best(atime.list)
+
+# Set up the PNG device
+png("best_list_plot.png", width=800, height=600)
+
+# Plot with increased text sizes
+plot(best.list, cex.lab=15, cex.axis=15, cex.main=18, cex.sub=18)
+
+# Close the PNG device
+dev.off()
+
+```
+
+```{r}
+p <- ggplot(best.list$measurements, aes(x = N, y = median, group = expr.name, colour = expr.name)) +
+  geom_line() +
+  geom_ribbon(aes(ymin = min, ymax = max, fill = expr.name), alpha = 0.5, colour = NA) +
+  scale_x_log10("N = number of rows in the dataset", limits = c(1, 1e3), breaks = c(1, 10, 100, 1000)) +
+  theme(
+    text = element_text(size = 25),
+    axis.text = element_text(size = 15),
+    axis.title = element_text(size = 15)
+  ) +
+  scale_y_log10("Computational Time (Seconds)") +
+  labs(x = "N = number of rows in the dataset", y = "Computational Time (Seconds)") +
+  theme(legend.position = "none")
+
+p <- p + geom_dl(aes(label = gsub(".replacement", "", expr.name)), method = list(dl.combine("last.points"), cex = 1.2))
+
+ggsave("best.list.png", plot = p, width = 10, height = 5, unit = "in", dpi = 300)
+```
+
+```{r}
+pred.list <- predict(best.list, seconds=1e-2, kilobytes=10)
+plot(pred.list)
+```
+
+```{r}
+atime.list[["measurements"]][N==323, .(expr.name, seconds=median, kilobytes)]
+pred.list <- predict(best.list, seconds=1e-2, kilobytes=10)
+pred.list[["prediction"]]
+
+plot(pred.list)
+```
